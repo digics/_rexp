@@ -1,0 +1,608 @@
+
+# what if _reta1024 will generate into spec dest arr partX1024 and then return spec dest arr as the result
+# _dumpa() isn't work
+
+# _dumpa() - ts not implemented
+
+# on the first level: create strict list:
+#	_HID
+# add checking _arrname_ in subarrays???????
+
+#_delete _defa _leta
+#_mov _mova _moviav _moviaa _nmoviav _moviaa _moviaia _movaiai _movaii
+#_adda
+#_sama _nama 
+
+
+	@load		"rwarray"
+#___________________________________________________________
+BEGIN { _envlib( "_arr" ) } ################################
+
+	@include	"_arr.inc"
+#___________________________________________________________
+func	_begin_arr() { #######################################
+
+	_hid(	" _arrname_ , _arrtmp0_ , _stricted_ " )
+	
+	_const( "_ramvld_", 32768 )
+	
+	_lista( _NAMA,	" _NAMA	, _HID	," \
+				" FUNCTAB	, _FUNCTAB	," \
+				" SYMTAB			 " ) }
+#___________________________________________________________
+func	_delete( i, D ,I ) { #################################
+
+	if ( i == "" && i == 0 ) {
+		
+		delete D
+		
+		return }
+
+	if ( ! patsplit( i, I, /[^\x00\x08\x09\x0A\x0D\x20\xA0,;]+/ ) )
+
+		I[ 1 ] = ""
+
+	for ( i = 1; i in I; i++ ) {
+		
+		is = I[ i ]
+		
+		if ( is in D )
+			
+			delete D[ is ] }
+
+	return I[ 1 ] }
+#_____________________________________________________
+func	_moviav( i, D, v ) { ###########################
+
+	if ( isarray( v ) ) {
+
+		if ( i in D )
+		
+			delete D[ i ]
+
+		delete D[ i ][ D[ i ][ "" ] ]
+		
+		_mova( D[ i ], v )
+		
+		return i }
+		
+	else	if ( v == "" && v == 0 ) {
+	
+			if ( i in D )
+			
+				delete D[ i ]
+				
+			D[ i ]
+				
+			return i }
+
+	else if ( i in D && isarray( D[ i ] ) )
+	
+			delete D[ i ]
+			
+	D[ i ] = v
+			
+	return i }
+#_____________________________________________________
+func	_defa( i, D, v ,I ) { ##########################
+
+	if ( i == "" && i == 0 ) {
+		
+		delete D
+		
+		if ( isarray( v ) )
+			
+			_mova( D, v )
+			
+		return }
+
+	if ( i in D )
+			
+		delete D[ i ]
+
+	delete D[ i ][ D[ i ][ "" ] ]
+		
+	if ( isarray( v ) )
+			
+		_mova( D[ i ], v )
+
+	return i }
+#_______________________________________________
+func	_leta( i, D, v ,I ) { ####################
+
+	if ( i == "" && i == 0 ) {
+			
+		"" in D
+			
+		if ( isarray( v ) )
+				
+			_adda( D, v )
+				
+		return }
+
+	if ( i in D ) {
+		
+		if ( ! isarray( D[ i ] ) ) {
+			
+			delete D[ i ] 
+			
+			delete D[ i ][ D[ i ][ "" ] ] }
+
+		if ( isarray( v ) )
+				
+			_adda( D[ i ], v ) }
+
+	return i }
+#_____________________________________________________
+func	_addanumi( D, t ) { ############################
+	
+	D[ length( D ) + 1 ] = t }
+#_____________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+
+#_________________________________________________________________
+func	_letiav(i,A,v) { ###########################################
+	if ( i=="" && i==0 ) {
+		if ( isarray(v) )		return _mova(A,v)
+						"" in A; return i }
+	else	if ( v=="" && v==0 )	return
+					else	return A[i]=v }
+
+
+
+
+
+
+
+
+
+
+#_______________________________________________________________________
+func	_rmovia(si,S,dv) { ###############################################
+	if ( si in S && !isarray(S[si]) && ((is=S[si])!="" || is!=0) ) {
+		delete S[si]; return is }
+	else	return is=dv }
+
+
+
+
+#_________________________________________________________________
+func	_rmoviaia(di,D,si,S) { #####################################
+	if ( si in S ) {
+		if ( isarray(S[si]) ) {
+			if ( di in D )
+				if ( isarray(D[di]) )	{ _mova(D[di],S[si]); delete S[si]; return }
+							else	delete D[di]; D[di][""]; _mova(D[di],S[si]); delete S[si]; return }
+		if ( di in D && isarray(D[di]) )	delete D[di]; di=D[di]=S[si]; delete S[si]; return di }
+	else	if ( di in D )	delete D[di]; delete S[si] }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#_______________________________________________________________________
+func	_mov(D,d,S,s) { ##################################################
+	if ( isarray(d) ) {
+		if ( S==0 && S=="" )			return _mova(D,d)					# _mov(D,S)
+		delete D[S]
+		if ( S in d ) {
+			if ( isarray(d[S]) )		{ D[S][""]; return _mova(D[S],d[S]) }	# _mov(D,S,idx)
+								return D[S]=d[S] } }				# _mov(D,S,idx)
+	#_____________________________________________________
+	if ( d==0 && d=="" ) {
+		if ( isarray(S) ) {
+			if ( s==0 && s=="" )		return _mova(D,S)					# _mov(D,-,S)
+			delete D[s]
+			if ( s in S )
+				if ( isarray(S[s]) )	{ D[s][""]; return _mova(D[s],S[s]) }	# _mov(D,-,S,idx)
+							else	return D[s]=S[s] }				# _mov(D,-,S,idx)
+							else	delete D; delete D[D[""]]; return }		# _mov(D)
+	#_____________________________________________________
+	
+	if ( isarray(S) ) {
+		if ( d in D )	delete D[d]
+		if ( s==0 && s=="" )			{ D[d][""]; return _mova(D[d],S) }		# _mov(D,d,S)
+		if ( s in S ) {
+			if ( isarray(S[s]) )		{ D[d][""]; return _mova(D[d],S[s]) }	# _mov(D,d,S,s)
+								return D[d]=S[s] } return }			# _mov(D,d,S,s)
+							else	{ if ( isarray(D[d]) )		delete D[d]; return D[d]=S } }					# _mov(D,d,S)
+#_____________________________________________________
+func	_mova( D, S, L ,i ) { ##########################
+
+	if ( isarray( L ) ) {
+		
+		delete D
+		
+		while ( "" != i = L[ i ] )
+
+			if ( i in S )
+				
+				if ( isarray( S[ i ] ) )
+					
+					_mova_0( D[ D[ i ][ "" ] = i ], S[ i ])
+					
+				else	D[ i ] = S[ i ]
+				
+				return }
+				
+	else	if ( L == "" )
+		
+			if ( L == 0 ) {
+				
+				delete D
+				
+				for ( i in S )
+					
+					if ( isarray( S[ i ] ) )
+						
+						_mova_0( D[ D[ i ][ "" ] = i ], S[ i ] )
+						
+					else	D[ i ] = S[ i ] }
+
+			else	delete D
+			
+	else	{ _strl( _lrspc( L ), i )
+	
+		return _mova( D, S, i ) } }
+	#_____________________________________________________
+	func	_mova_0( D, S ) {
+
+		delete D
+		
+		for ( _mova_i in S )
+			
+			if ( isarray(S[_mova_i]) ) {
+				
+				D[_mova_i][""]; _mova_0(D[_mova_i],S[_mova_i]) }
+				
+			else	D[_mova_i]=S[_mova_i] }
+
+#___________________________________________________________
+func	_addiav(d,D,v) { #####################################
+	if ( isarray(v) ) {
+		if ( !isarray(D[d]) )	{ delete D[d]; delete D[d][D[d][""]] }
+						_adda(D[d], v); return d }
+	else	if ( v=="" && v==0 )	return d
+	else	if ( isarray(D[d]) )	delete D[d]; D[d] = v; return d }
+#___________________________________________________________
+func	_nmoviav( i, A, v ) { ################################
+
+	if ( i in A )
+	
+		if ( isarray( A[ i ] ) )
+		
+			return 0
+
+		else	return A[ i ]
+
+	else	return _moviav( i, A, v ) }
+#_________________________________________________________________
+func	_moviaa(d,D,A) { ###########################################
+	if ( d in D )	delete D[d]
+	D[d][""]; delete D[d][""]; return _mova(D[d],A) }
+
+#_________________________________________________________________
+func	_moviaia( di, D, si, S ) { #################################
+
+	switch ( ( si in S ) ( di in D ) ) {
+		
+		case "11":
+		
+			switch ( isarray( S[ si ] ) isarray( D[ di ] ) ) {
+
+					case "01":
+
+						delete D[di]
+
+					case "00":
+					
+						D[ di ] = S[ si ]
+						
+						return
+
+					default:
+					
+						delete D[ di ]
+						
+						D[ di ][ "" ]
+						
+						return _mova( D[ di ], S[ si ] ) }
+
+		case "10":
+		
+			if ( !isarray( S[ si ] ) )
+
+				return D[ di ] = S[ si ]
+
+			D[ di ][ "" ]
+			
+			return _mova( D[ di ], S[ si ] )
+			
+		case "01":
+		
+			delete D[ di ] } }
+
+#_________________________________________________________________
+func	_movaiai(D,di,S,si) { ######################################
+	if ( si in S )
+		if ( isarray(S[si]) ) {
+			if ( di in D )
+				if ( isarray(D[di]) )		{ _mova(D[di],S[si]); return di }
+								else	delete D[di]; D[di][""]; delete D[di][""]; _mova(D[di],S[si]) }
+		else	{ if ( di in D && isarray(D[di]) )	delete D[di]; D[di]=S[si] }
+	else	if ( di in D )					delete D[di]; return di }
+#_________________________________________________________________
+func	_moviai(d,A,s) { ###########################################
+	if ( s in A )
+		if ( isarray(A[s]) ) {
+			if ( d in A )
+				if ( isarray(A[d]) )	{ _mova(A[d],A[s]); return d }
+							else	delete A[d]
+								A[d][""]; delete A[d][""]; _mova(A[d],A[s]) }
+		else	{ if ( isarray(A[d]) )		delete A[d]; A[d]=A[s] }
+	else	if ( d in A )				delete A[d]; return d }
+
+
+#_________________________________________________________________
+func	_moviaal( i, D, S, L ,l ) { ################################ mov ptr arr arr list
+
+	_leta( i, D )
+	
+	for ( l in L )
+		
+		if ( l in S )
+			
+			_moviav( l, D[ i ], S[ l ] )
+
+		return i }
+
+#_______________________________________________________________________
+func	_adda(D,S,L ,i) { ################################################
+	if ( isarray(L) ) {
+		while ( ""!=i=L[i] )
+			if ( i in S )
+				if ( isarray(S[i]) ) {
+					if ( i in D )
+						if ( isarray(D[i]) )	{ _adda_0(D[i],S[i]); continue }
+									else	delete D[i]
+					delete D[i][D[i][""]]; _adda_0(D[i],S[i]) }
+				else	{ if ( i in D && isarray(D[i]) )	delete D[i]; D[i]=S[i] } }
+	else	if ( L=="" ) {
+			if ( L==0 )
+				for ( i in S )
+					if ( isarray(S[i]) ) {
+						if ( i in D )
+							if ( isarray(D[i]) )	{ _adda_0(D[i],S[i]); continue }
+										else	delete D[i]
+						delete D[i][D[i][""]]; _adda_0(D[i],S[i]) }
+					else	{ if ( i in D && isarray(D[i]) )	delete D[i]; D[i]=S[i] } }
+	else	{ _strl(_lrspc(L),i); return _adda(D,S,i) } }
+	#_____________________________________________________
+	func	_adda_0(D,S) {
+		for ( _adda_i in S )
+			if ( isarray(S[_adda_i]) ) {
+				if ( _adda_i in D )
+					if ( isarray(D[_adda_i]) )	{ _adda_0(D[_adda_i],S[_adda_i]); continue }
+										else	delete D[_adda_i]
+						delete D[_adda_i][D[_adda_i][""]]; _adda_0(D[_adda_i],S[_adda_i]) }
+			else	{ if ( _adda_i in D && isarray(D[_adda_i]) )	delete D[_adda_i]
+				D[_adda_i]=S[_adda_i] } }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#_______________________________________________________________________
+func	_sama(A,B,C) { ###################################################
+	A[_arrtmp0_]; _sama_r=(_arrtmp0_ in B) (_arrtmp0_ in C); delete A[_arrtmp0_]
+	switch ( _sama_r ) {
+		case "00":	B[_arrtmp0_]; _sama_r=_arrtmp0_ in C; delete B[_arrtmp0_]
+				return _sama_r=_sama_r ? "ABB" : "ABC"
+		case "01":	return _sama_r="ABA"
+		case "10":	return _sama_r="AAC"
+		default:	return _sama_r="AAA" } }
+
+
+
+
+
+
+
+
+
+func	_unhid(n) {
+	if ( n == "" && n == 0 )	return "-"
+	if ( n in _HID )			return _HID[n]
+	if ( toupper(n) in _HID )	return toupper(_HID[toupper(n)])
+						return _civilstr(n) }
+
+
+
+		
+
+		
+
+	
+
+
+
+
+
+#may be create _rega()where you can register an array in the lists of _nama searching
+# can't recognize array name: SYMTAB
+
+
+# sort method ?
+#_____________________________________________________
+func	_nama( A, ST ) { ###############################
+
+	if ( ! isarray( ST ) )
+		
+			return _nama( A, _NAMA )
+
+	if ( _arrname_ in A )
+		
+		return is = A[ _arrname_ ]
+
+	A[ _arrtmp0_ ]
+	
+	delete _NAMA_SUBA
+
+	for ( is in SYMTAB )
+
+		if ( isarray( SYMTAB[ is ] ) )
+			
+			if ( ! ( is in ST ) )
+
+				if ( _arrtmp0_ in SYMTAB[ is ] ) {
+					
+					delete A[ _arrtmp0_ ]
+					
+					return is }
+					
+				else	_NAMA_SUBA[ is ]
+
+	for ( is in _NAMA_SUBA )
+
+		if ( _nama0( A, SYMTAB[ is ], is ) ) {
+			
+			delete A[ _arrtmp0_ ]
+			
+			return _0( is, _delete( null, _NAMA_SUBA ) ) }
+			
+	delete A[ _arrtmp0_ ]
+
+	delete _NAMA_SUBA
+	
+	return is = null }
+	#_____________________________
+
+	func	_nama0( A, C, px ) {
+
+		for ( is in C )
+
+			if ( isarray( C[ is ] ) )
+
+				if ( ! ( is in _HID ) )
+					
+					if ( _arrtmp0_ in C[ is ] )
+
+						return is = px "." is
+						
+					else	if ( _nama0( A, C[ is ], px "." is ) )
+						
+							return 1 }
+#___________________________________________________________
+############################################################
+
+
